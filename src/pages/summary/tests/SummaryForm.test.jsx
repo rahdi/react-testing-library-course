@@ -4,8 +4,8 @@
 // unchecking checkbox again disables button
 
 import { expect } from "vitest";
-import SummaryForm from "../summary/SummaryForm";
-import { fireEvent, render, screen } from "@testing-library/react";
+import SummaryForm from "../SummaryForm";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 test("Initial conditions", () => {
