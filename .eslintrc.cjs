@@ -20,6 +20,7 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "no-unused-vars": ["warn"],
   },
   globals: {
     ...vitest.environments.env.globals,
