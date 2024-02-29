@@ -16,14 +16,11 @@ export const useOrderDetails = () => {
   return contextValue;
 };
 
-const initialState = {
-  scoops: {}, // example { Chocolate: 1, Vanilla: 2 }
-  toppings: {}, // example { "Gummi Bears": 1 }
-};
-
 export const OrderDetailsProvider = (props) => {
-  const [optionCounts, setOptionsCounts] = useState({ ...initialState });
-
+  const [optionCounts, setOptionsCounts] = useState({
+    scoops: {}, // example { Chocolate: 1, Vanilla: 2 }
+    toppings: {}, // example { "Gummi Bears": 1 }
+  });
   const updateItemCount = (itemName, newItemCount, optionType) => {
     // make a copy of existing state
     const newOptionCounts = { ...optionCounts };
@@ -36,7 +33,10 @@ export const OrderDetailsProvider = (props) => {
   };
 
   const resetOrder = () => {
-    setOptionsCounts({ ...initialState });
+    setOptionsCounts({
+      scoops: {},
+      toppings: {},
+    });
   };
 
   // utility function to derive totals from optionCounts state value
