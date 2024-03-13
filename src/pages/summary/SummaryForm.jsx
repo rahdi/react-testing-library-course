@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button, Form, OverlayTrigger, Popover } from "react-bootstrap";
 
-const SummaryForm = () => {
+const SummaryForm = ({ handleClick }) => {
   const [checked, setChecked] = useState(false);
 
   const popover = (
@@ -22,7 +22,7 @@ const SummaryForm = () => {
   );
 
   return (
-    <Form>
+    <Form onSubmit={handleClick}>
       <Form.Group controlId="terms-and-conditions">
         <Form.Check
           type="checkbox"
