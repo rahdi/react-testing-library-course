@@ -2,27 +2,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useOrderDetails } from "../../contexts/OrderDetails";
+import AlertBanner from "../common/AlertBanner";
 
 const OrderConfirmation = ({ handleClick }) => {
   const [orderNumber, setOrderNumber] = useState(null);
   const { resetOrder } = useOrderDetails();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const response = await axios.post("http://localhost:3030/order");
-      if (response.data.orderNumber) {
-        setOrderNumber(response.data.orderNumber);
+      try {
+        const response = await axios.post("http://localhost:3030/order");
+        if (response.data.orderNumber) {
+          setOrderNumber(response.data.orderNumber);
+          setError(false);
+        }
+      } catch (error) {
+        setError(true);
       }
-      // TODO: handle error response
     })();
   }, []);
-
-  if (orderNumber === null) return <div>Loading</div>;
 
   const createNewOrder = () => {
     resetOrder();
     handleClick();
   };
+  const newOrderButton = (
+    <Button onClick={createNewOrder}>Create new order</Button>
+  );
+
+  if (error)
+    return (
+      <>
+        <AlertBanner />
+        {newOrderButton}
+      </>
+    );
+
+  if (orderNumber === null) return <div>Loading</div>;
 
   return (
     <div>
@@ -31,7 +48,7 @@ const OrderConfirmation = ({ handleClick }) => {
 
       <p>as per our terms and conditions, nothing will happen now</p>
 
-      <Button onClick={createNewOrder}>Create new order</Button>
+      {newOrderButton}
     </div>
   );
 };
