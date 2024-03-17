@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
 const ScoopOption = ({ name, imagePath }) => {
   const { updateItemCount } = useOrderDetails();
+  const [isValid, setIsValid] = useState(true);
 
-  const handleChange = (e) =>
-    updateItemCount(name, parseInt(e.target.value), "scoops");
+  const handleChange = (e) => {
+    const value = parseFloat(e.target.value);
+    if (value >= 0 && value <= 10 && Math.floor(value) === value) {
+      setIsValid(true);
+      updateItemCount(name, parseInt(e.target.value), "scoops");
+    } else {
+      setIsValid(false);
+      updateItemCount(name, 0, "scoops");
+    }
+  };
 
   return (
     <Col xs={12} sm={6} md={4} lg={3} style={{ textAlign: "center" }}>
@@ -29,6 +38,7 @@ const ScoopOption = ({ name, imagePath }) => {
             type="number"
             defaultValue={0}
             onChange={handleChange}
+            isInvalid={!isValid}
           />
         </Col>
       </Form.Group>
